@@ -30,4 +30,35 @@ describe('mycalculatordapp', () => {
         assert.deepEqual(account.result, new anchor.BN(42))
     })
 
+    it('Subtracts 2 numbers', async () => {
+        await program.rpc.subtract(new anchor.BN(20), new anchor.BN(4), {
+            accounts: {
+                calculator: calculator.publicKey
+            }
+        })
+        const account = await program.account.calculator.fetch(calculator.publicKey)
+        assert.deepEqual(account.result, new anchor.BN(16))
+    })
+
+    it('Multiply 2 numbers', async () => {
+        await program.rpc.multiply(new anchor.BN(20), new anchor.BN(4), {
+            accounts: {
+                calculator: calculator.publicKey
+            }
+        })
+        const account = await program.account.calculator.fetch(calculator.publicKey)
+        assert.deepEqual(account.result, new anchor.BN(80))
+    })
+
+    it('Divide 2 numbers', async () => {
+        await program.rpc.divide(new anchor.BN(21), new anchor.BN(4), {
+            accounts: {
+                calculator: calculator.publicKey
+            }
+        })
+        const account = await program.account.calculator.fetch(calculator.publicKey)
+        assert.deepEqual(account.result, new anchor.BN(5))
+        assert.deepEqual(account.remainder, new anchor.BN(1))
+    })
+
 })
